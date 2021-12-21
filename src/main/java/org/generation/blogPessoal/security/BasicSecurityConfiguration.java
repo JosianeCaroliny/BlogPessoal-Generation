@@ -20,15 +20,18 @@ public class BasicSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override 
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(UserDetailService);
+		auth.inMemoryAuthentication().withUser("boaz")
+		.password(passwordEncoder().encode("boaz")).authorities("ROLE_ADMIN");
 	}
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	
 	}
 	
 	@Override
-	public void configure(HttpSecurity http) throws Exception {
+	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 		.antMatchers("/usuarios/logar").permitAll()
 		.antMatchers("/usuarios/cadastrar").permitAll()
