@@ -24,40 +24,34 @@ public class SwaggerConfiguration {
 					.version("v0.0.1")
 				.license(new License()
 					.name("Generation Brasil")
-					.url("http://brazil.generation.org"))
+					.url("<http://brazil.generation.org>"))
 				.contact(new Contact()
 					.name("Josiane Caroliny")
-					.url("https://github.com/JosianeCaroliny")
+					.url("<https://github.com/JosianeCaroliny>")
 					.email("carolinyjosiane@gmail.com")))
 				.externalDocs(new ExternalDocumentation()
-					.description("Github")
+					.description("Github Project")
 					.url("https://github.com/JosianeCaroliny/BlogPessoal-Generation"));
+	}
+	
+	private ApiResponse createApiResponse(String message) {
+		return new ApiResponse().description(message);
 	}
 
 	@Bean
-	public OpenApiCustomiser customerGlobalHeaderOpenApiCustomiser() {
-
+	public OpenApiCustomiser customerGlobalResponseStatus() {
 		return openApi -> {
 			openApi.getPaths().values().forEach(pathItem -> pathItem.readOperations().forEach(operation -> {
-
 				ApiResponses apiResponses = operation.getResponses();
-
-				apiResponses.addApiResponse("200", createApiResponse("Sucesso!"));
-				apiResponses.addApiResponse("201", createApiResponse("Objeto Persistido!"));
-				apiResponses.addApiResponse("204", createApiResponse("Objeto Excluído!"));
-				apiResponses.addApiResponse("400", createApiResponse("Erro na Requisição!"));
-				apiResponses.addApiResponse("401", createApiResponse("Acesso Não Autorizado!"));
-				apiResponses.addApiResponse("404", createApiResponse("Objeto Não Encontrado!"));
-				apiResponses.addApiResponse("500", createApiResponse("Erro na Aplicação!"));
+				
+				apiResponses.addApiResponse("200", createApiResponse("Sucess!"));
+				apiResponses.addApiResponse("201", createApiResponse("Created!"));
+				apiResponses.addApiResponse("400", createApiResponse("Request error!"));
+				apiResponses.addApiResponse("401", createApiResponse("Not authorized!"));
+				apiResponses.addApiResponse("500", createApiResponse("Internal server Error!"));
 
 			}));
 		};
-	}
-
-	private ApiResponse createApiResponse(String message) {
-
-		return new ApiResponse().description(message);
-
 	}
 
 }
