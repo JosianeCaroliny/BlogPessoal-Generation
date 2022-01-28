@@ -1,6 +1,6 @@
 package org.generation.blogPessoal.model;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -9,10 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -31,8 +32,8 @@ public class Postagem {
 	@Size(min = 10, max = 500)
 	private String texto;
 	
-	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
-	private LocalDateTime data = LocalDateTime.now();
+	@Temporal(TemporalType.TIMESTAMP)
+    private Date data = new java.sql.Date(System.currentTimeMillis());
 	
 	@ManyToOne(cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("postagem")
@@ -66,11 +67,11 @@ public class Postagem {
 		this.texto = texto;
 	}
 
-	public LocalDateTime getData() {
+	public Date getData() {
 		return data;
 	}
 
-	public void setData(LocalDateTime data) {
+	public void setData(Date data) {
 		this.data = data;
 	}
 
@@ -89,5 +90,7 @@ public class Postagem {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
+
+	
 
 }
