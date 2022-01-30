@@ -36,34 +36,18 @@ public class UsuarioService {
 		}
 		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado!", null);
 	}
-
-/*	public Optional<UserLogin> Logar(Optional<UserLogin> user) {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		Optional<Usuario> usuario = repository.findByUsuario(user.get().getUsuario());
-		if (usuario.isPresent()) {
-			if (encoder.matches(user.get().getSenha(), usuario.get().getSenha())) {
-				String auth = user.get().getUsuario() + ":" + user.get().getSenha();
-				byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
-				String authHeader = "Basic " + new String(encodedAuth);
-				user.get().setToken(authHeader);
-				user.get().setNome(usuario.get().getNome());
-				return user;
-			}
-		}
-		return null;
-	}*/
 	
-	public Optional<UserLogin> logarUsuario(Optional<UserLogin> user) {
-		Optional<Usuario> usuario = repository.findByUsuario(user.get().getUsuario());
+	public Optional<UserLogin> logarUsuario(Optional<UserLogin> userLogin) {
+		Optional<Usuario> usuario = repository.findByUsuario(userLogin.get().getUsuario());
 		if (usuario.isPresent()) {
-			if (compararSenhas(user.get().getSenha(), usuario.get().getSenha())) {
-				user.get().setId(usuario.get().getId());
-				user.get().setNome(usuario.get().getNome());
-				user.get().setFoto(usuario.get().getFoto());
-				user.get().setSenha(usuario.get().getSenha());
-				user.get().setTipo(usuario.get().getTipo());
-				user.get().setToken(generatorBasicToken(user.get().getUsuario(), user.get().getSenha()));
-				return user;
+			if (compararSenhas(userLogin.get().getSenha(), usuario.get().getSenha())) {
+				userLogin.get().setId(usuario.get().getId());
+				userLogin.get().setNome(usuario.get().getNome());
+				userLogin.get().setFoto(usuario.get().getFoto());
+				userLogin.get().setTipo(usuario.get().getTipo());
+				userLogin.get().setToken(generatorBasicToken(userLogin.get().getUsuario(), userLogin.get().getSenha()));
+				userLogin.get().setSenha(usuario.get().getSenha());
+				return userLogin;
 			}
 		}
 		throw new ResponseStatusException(
