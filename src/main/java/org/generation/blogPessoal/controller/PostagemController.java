@@ -63,9 +63,11 @@ public class PostagemController {
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable long id) {
 		Optional<Postagem> post = repository.findById(id);
+		
 		if(post.isEmpty())
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+		
 		repository.deleteById(id);
 	}
-		
+	
 }
